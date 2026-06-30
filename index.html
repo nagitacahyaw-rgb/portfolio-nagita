@@ -209,11 +209,17 @@
 
         /* Photo */
         .hero-photo-wrap { position:relative;display:flex;align-items:center;justify-content:center; }
-        .photo-glow { position:absolute;inset:-20px;background:radial-gradient(ellipse at center,rgba(123,47,255,.18) 0%,transparent 65%);border-radius:32px;animation:pulseGlow 3s ease-in-out infinite;pointer-events:none; }
+        .photo-glow { position:absolute;inset:-20px;background:radial-gradient(ellipse at center,rgba(123,47,255,.22) 0%,transparent 65%);border-radius:32px;animation:pulseGlow 3s ease-in-out infinite;pointer-events:none;z-index:0; }
         @keyframes pulseGlow { 0%,100%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
-        .photo-card { background:var(--glass);border:1px solid rgba(155,93,229,.35);padding:6px;border-radius:24px;position:relative;z-index:1;box-shadow:0 0 50px rgba(123,47,255,.25),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(20px); }
-        .photo-card img { width:100%;height:460px;object-fit:cover;object-position:center;border-radius:18px;display:block; }
-        .photo-placeholder { width:100%;height:460px;border-radius:18px;background:linear-gradient(145deg,rgba(155,93,229,.25),rgba(0,245,212,.1));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:90px;font-weight:900;color:rgba(155,93,229,.25); }
+        .hero-profile-img {
+            position:relative; z-index:1;
+            width:100%; max-width:360px; height:460px;
+            object-fit:cover; object-position:center;
+            border-radius:22px;
+            border:1px solid rgba(155,93,229,.4);
+            box-shadow:0 0 50px rgba(123,47,255,.3), inset 0 1px 0 rgba(255,255,255,.1);
+            display:block;
+        }
 
         /* ── TICKER ── */
         .ticker-wrap { overflow:hidden;background:rgba(155,93,229,.06);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:11px 0;margin:50px -80px 0;width:calc(100% + 160px); }
@@ -341,12 +347,30 @@
             .main { margin-left:0; }
             footer { margin-left:0; }
             .page { padding:40px 24px; }
-            .home-layout { grid-template-columns:1fr; }
-            .hero-photo-wrap { display:none; }
+
+            /* Home: photo shows ON TOP as a circle */
+            .home-layout { grid-template-columns:1fr; gap:24px; }
+            .hero-photo-wrap { display:flex; order:-1; margin-bottom:8px; }
+            .photo-glow { display:none; }
+            .hero-profile-img {
+                width:160px; height:160px;
+                max-width:160px;
+                border-radius:50%;
+                object-position:center top;
+                margin:0 auto;
+                border:2px solid rgba(155,93,229,.5);
+                box-shadow:0 0 30px rgba(123,47,255,.35);
+            }
+
             .about-grid,.contact-grid,.skills-2col { grid-template-columns:1fr; }
             .tools-grid,.projects-grid,.social-grid { grid-template-columns:1fr 1fr; }
             .hero-name { font-size:clamp(52px,14vw,80px); }
             .ticker-wrap { margin:24px -24px;width:calc(100% + 48px); }
+        }
+
+        @media(max-width:560px) {
+            .tools-grid,.projects-grid,.social-grid { grid-template-columns:1fr; }
+            .hero-profile-img { width:130px; height:130px; }
         }
     </style>
 </head>
@@ -448,9 +472,7 @@
             </div>
             <div class="hero-photo-wrap">
                 <div class="photo-glow"></div>
-                <div class="photo-card">
-                    <img src="profile%20web.jpeg" alt="Nagita" onerror="this.outerHTML='<div class=\'photo-placeholder\'>N</div>'">
-                </div>
+                <img class="hero-profile-img" src="profile%20web.jpeg" alt="Nagita Profile">
             </div>
         </div>
         <div class="ticker-wrap">
@@ -498,14 +520,14 @@
             </div>
             <div>
                 <div class="info-table">
-                    <div class="info-row"><span class="info-key">Full Name</span><span class="info-val">Ayu Nagita Cahyaning Wulan</span></div>
-                    <div class="info-row"><span class="info-key">University</span><span class="info-val">Institut Teknologi Bandung</span></div>
-                    <div class="info-row"><span class="info-key">Major</span><span class="info-val">Information System & Technology</span></div>
-                    <div class="info-row"><span class="info-key">Year</span><span class="info-val">1st Year (2025–2028)</span></div>
-                    <div class="info-row"><span class="info-key">Location</span><span class="info-val">Bandung, Indonesia</span></div>
-                    <div class="info-row"><span class="info-key">Email</span><span class="info-val">ayu.nagita.cw@gmail.com</span></div>
-                    <div class="info-row"><span class="info-key">Hobbies</span><span class="info-val">Reading, Sports, Tech Exploration</span></div>
-                    <div class="info-row"><span class="info-key">Status</span><span class="info-val" style="color:var(--teal);">Open to Opportunities ✦</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_name">Full Name</span><span class="info-val">Ayu Nagita Cahyaning Wulan</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_uni">University</span><span class="info-val">Institut Teknologi Bandung</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_major">Major</span><span class="info-val" data-i18n="iv_major">Information System & Technology</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_year">Year</span><span class="info-val" data-i18n="iv_year">1st Year (2025–2028)</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_loc">Location</span><span class="info-val">Bandung, Indonesia</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_email">Email</span><span class="info-val">ayu.nagita.cw@gmail.com</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_hobby">Hobbies</span><span class="info-val" data-i18n="iv_hobby">Reading, Sports, Tech Exploration</span></div>
+                    <div class="info-row"><span class="info-key" data-i18n="ik_status">Status</span><span class="info-val" data-i18n="iv_status" style="color:var(--teal);">Open to Opportunities ✦</span></div>
                 </div>
             </div>
         </div>
@@ -522,15 +544,15 @@
             <div class="proj-card">
                 <div class="proj-num">01</div>
                 <div class="proj-title">Website Portfolio</div>
-                <p class="proj-desc">Personal portfolio website to showcase my skills and experience. Built as part of the IT Agency program at TEC ITB.</p>
+                <p class="proj-desc" data-i18n="p1d">Personal portfolio website to showcase my skills and experience. Built as part of the IT Agency program at TEC ITB.</p>
                 <div class="proj-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-                <div class="proj-status done">✓ Completed</div>
+                <div class="proj-status done" data-i18n="completed">✓ Completed</div>
                 <div class="proj-imgs"><img src="porto-web1.jpeg" alt="Portfolio" onerror="this.style.display='none'"></div>
             </div>
             <div class="proj-card">
                 <div class="proj-num">02</div>
                 <div class="proj-title">Lift Game</div>
-                <p class="proj-desc">A lift-themed game built for the Computational Thinking major assignment, Semester 1 TPB ITB, using Python and Pygame.</p>
+                <p class="proj-desc" data-i18n="p2d">A lift-themed game built for the Computational Thinking major assignment, Semester 1 TPB ITB, using Python and Pygame.</p>
                 <div class="proj-tags"><span class="tag">Python</span><span class="tag">Pygame</span></div>
                 <div class="proj-status done">✓ Completed</div>
                 <div class="proj-imgs">
@@ -541,7 +563,7 @@
             <div class="proj-card proj-featured">
                 <div class="proj-num">03</div>
                 <div class="proj-title">TEC Website</div>
-                <p class="proj-desc">Contributed to the official website of Techno Entrepreneur Club (TEC) ITB. Focused on designing and implementing the <em>Our Program</em> page and overall UI/UX — crafting a modern, informative visual experience.</p>
+                <p class="proj-desc" data-i18n="p3d">Contributed to the official website of Techno Entrepreneur Club (TEC) ITB. Focused on designing and implementing the <em>Our Program</em> page and overall UI/UX — crafting a modern, informative visual experience.</p>
                 <div class="proj-tags"><span class="tag">UI/UX</span><span class="tag">Web Design</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
                 <div class="proj-status done">✓ Completed</div>
                 <div class="proj-imgs">
@@ -573,13 +595,13 @@
         </div>
         <div class="skills-2col">
             <div class="skill-card">
-                <p class="skill-cat">Soft Skills</p>
+                <p class="skill-cat" data-i18n="sc_soft">Soft Skills</p>
                 <div class="pill-wrap">
                     <span class="pill">🧩 Problem Solving</span><span class="pill">🤝 Teamwork</span><span class="pill">⚡ Multitasking</span><span class="pill">🗣️ Communication</span><span class="pill">👑 Leadership</span><span class="pill">🎤 Public Speaking</span><span class="pill">🎯 Attention to Detail</span><span class="pill">📅 Event Planning</span><span class="pill">🗂️ Event Management</span>
                 </div>
             </div>
             <div class="skill-card">
-                <p class="skill-cat">Domain Knowledge</p>
+                <p class="skill-cat" data-i18n="sc_domain">Domain Knowledge</p>
                 <div class="pill-wrap">
                     <span class="pill">📊 Data Analysis</span><span class="pill">📈 Business Analysis</span><span class="pill">🧮 Mathematics</span><span class="pill">💰 Economics</span><span class="pill">🤖 Artificial Intelligence</span><span class="pill">🏗️ Data Centers</span><span class="pill">🚀 Product Management</span><span class="pill">💡 Innovation & Strategy</span>
                 </div>
@@ -595,12 +617,12 @@
             <p class="page-sub" data-i18n="work_sub">Organizations and roles I've contributed to.</p>
         </div>
         <div class="tl-label" data-i18n="tl_current">Current Roles</div>
-        <div class="tl-item"><div class="tl-title">Secretary II</div><div class="tl-org">IMPACT ITB</div><div class="tl-date">Mar 2026 — Present · Bandung, Hybrid</div><div class="tl-desc">Analytical skills, attention to detail, and various organizational competencies.</div></div>
-        <div class="tl-item"><div class="tl-title">IT Agency</div><div class="tl-org">Techno Entrepreneur Club (TEC) ITB</div><div class="tl-date">Dec 2025 — Present · Bandung, Hybrid</div><div class="tl-desc">Building the portfolio website and developing various technical & analytical skills within the campus startup ecosystem.</div></div>
-        <div class="tl-item"><div class="tl-title">Human Resources Coordinator</div><div class="tl-org">STEI-K ITB 2025</div><div class="tl-date">Nov 2025 — Present · Bandung, Hybrid</div><div class="tl-desc">HR coordination, communication, and event management within the STEI-K student association.</div></div>
+        <div class="tl-item"><div class="tl-title">Secretary II</div><div class="tl-org">IMPACT ITB</div><div class="tl-date" data-i18n="w1dt">Mar 2026 — Present · Bandung, Hybrid</div><div class="tl-desc" data-i18n="w1d">Analytical skills, attention to detail, and various organizational competencies.</div></div>
+        <div class="tl-item"><div class="tl-title">IT Agency</div><div class="tl-org">Techno Entrepreneur Club (TEC) ITB</div><div class="tl-date" data-i18n="w2dt">Dec 2025 — Present · Bandung, Hybrid</div><div class="tl-desc" data-i18n="w2d">Building the portfolio website and developing various technical & analytical skills within the campus startup ecosystem.</div></div>
+        <div class="tl-item"><div class="tl-title">Human Resources Coordinator</div><div class="tl-org">STEI-K ITB 2025</div><div class="tl-date" data-i18n="w3dt">Nov 2025 — Present · Bandung, Hybrid</div><div class="tl-desc" data-i18n="w3d">HR coordination, communication, and event management within the STEI-K student association.</div></div>
         <div class="tl-label" data-i18n="tl_past">Past Roles</div>
-        <div class="tl-item"><div class="tl-title">Secretary</div><div class="tl-org">OSIS — Organisasi Siswa Intra Sekolah</div><div class="tl-date">Aug 2022 — Sep 2024 · East Jakarta, On-site</div><div class="tl-desc">Event planning & management for 2 years 2 months in the student organization.</div></div>
-        <div class="tl-item"><div class="tl-title">Head of Division of Faith and Piety</div><div class="tl-org">OSIS — Organisasi Siswa Intra Sekolah</div><div class="tl-date">Jun 2021 — Jun 2022 · Megamendung, On-site</div><div class="tl-desc">Led the faith and piety division within the school's student organization.</div></div>
+        <div class="tl-item"><div class="tl-title">Secretary</div><div class="tl-org">OSIS — Organisasi Siswa Intra Sekolah</div><div class="tl-date">Aug 2022 — Sep 2024 · East Jakarta, On-site</div><div class="tl-desc" data-i18n="w4d">Event planning & management for 2 years 2 months in the student organization.</div></div>
+        <div class="tl-item"><div class="tl-title">Head of Division of Faith and Piety</div><div class="tl-org">OSIS — Organisasi Siswa Intra Sekolah</div><div class="tl-date">Jun 2021 — Jun 2022 · Megamendung, On-site</div><div class="tl-desc" data-i18n="w5d">Led the faith and piety division within the school's student organization.</div></div>
     </div>
 
     <!-- EDUCATION -->
@@ -610,9 +632,9 @@
             <h2 class="page-title" data-i18n="edu_title">Academic<br><em>Journey.</em></h2>
             <p class="page-sub" data-i18n="edu_sub">My educational background and institutions.</p>
         </div>
-        <div class="tl-item"><div class="tl-title">Bachelor of Engineering — Information System and Technology</div><div class="tl-org">Institut Teknologi Bandung</div><div class="tl-date">2025 — Present</div><div class="tl-desc">Focused on software engineering, web development, data science, and product management.</div></div>
-        <div class="tl-item"><div class="tl-title">High School Diploma — Independent Curriculum</div><div class="tl-org">State Senior High School of 98 Jakarta</div><div class="tl-date">Jul 2022 — May 2025</div><div class="tl-desc">Activities: OSIS, Islamic Spiritual Activity, Saman Dance Extracurricular. Skills: Secretary, Programming, Event Planning, Graphic Design, Public Speaking.</div></div>
-        <div class="tl-item"><div class="tl-title">High School Diploma — Natural Sciences</div><div class="tl-org">Jakarta (Integrated International) Islamic Girls Boarding School</div><div class="tl-date">Jul 2019 — Jun 2022</div><div class="tl-desc">Activities: OSIS, Basketball Extracurricular. Skills: Head of Division, Head of Extracurricular, Silat, Event Planning, Public Speaking.</div></div>
+        <div class="tl-item"><div class="tl-title">Bachelor of Engineering — Information System and Technology</div><div class="tl-org">Institut Teknologi Bandung</div><div class="tl-date" data-i18n="e1dt">2025 — Present</div><div class="tl-desc" data-i18n="e1d">Focused on software engineering, web development, data science, and product management.</div></div>
+        <div class="tl-item"><div class="tl-title">High School Diploma — Independent Curriculum</div><div class="tl-org">State Senior High School of 98 Jakarta</div><div class="tl-date">Jul 2022 — May 2025</div><div class="tl-desc" data-i18n="e2d">Activities: OSIS, Islamic Spiritual Activity, Saman Dance Extracurricular. Skills: Secretary, Programming, Event Planning, Graphic Design, Public Speaking.</div></div>
+        <div class="tl-item"><div class="tl-title">High School Diploma — Natural Sciences</div><div class="tl-org">Jakarta (Integrated International) Islamic Girls Boarding School</div><div class="tl-date">Jul 2019 — Jun 2022</div><div class="tl-desc" data-i18n="e3d">Activities: OSIS, Basketball Extracurricular. Skills: Head of Division, Head of Extracurricular, Silat, Event Planning, Public Speaking.</div></div>
     </div>
 
     <!-- CONTACT -->
@@ -782,7 +804,22 @@
             contact_label:'Contact', contact_title:'Let\'s Connect.<br><em>Say hello.</em>', contact_sub:'Interested in collaborating or have a question? Feel free to reach out!',
             contact_intro:'I\'m always open to new opportunities, collaborations, and interesting conversations. Drop me a message!',
             form_name:'Name', form_email:'Email', form_msg:'Message', form_send:'Send Message',
-            social_label:'Social', social_title:'Find Me<br><em>Online.</em>', social_sub:'Connect with me across different platforms.'
+            social_label:'Social', social_title:'Find Me<br><em>Online.</em>', social_sub:'Connect with me across different platforms.',
+            completed:'✓ Completed',
+            w1d:'Analytical skills, attention to detail, and various organizational competencies.',
+            w2d:'Building the portfolio website and developing various technical & analytical skills within the campus startup ecosystem.',
+            w3d:'HR coordination, communication, and event management within the STEI-K student association.',
+            w4d:'Event planning & management for 2 years 2 months in the student organization.',
+            w5d:'Led the faith and piety division within the school\'s student organization.',
+            w1dt:'Mar 2026 — Present · Bandung, Hybrid', w2dt:'Dec 2025 — Present · Bandung, Hybrid', w3dt:'Nov 2025 — Present · Bandung, Hybrid', e1dt:'2025 — Present',
+            e1d:'Focused on software engineering, web development, data science, and product management.',
+            e2d:'Activities: OSIS, Islamic Spiritual Activity, Saman Dance Extracurricular. Skills: Secretary, Programming, Event Planning, Graphic Design, Public Speaking.',
+            e3d:'Activities: OSIS, Basketball Extracurricular. Skills: Head of Division, Head of Extracurricular, Silat, Event Planning, Public Speaking.',
+            p1d:'Personal portfolio website to showcase my skills and experience. Built as part of the IT Agency program at TEC ITB.',
+            p2d:'A lift-themed game built for the Computational Thinking major assignment, Semester 1 TPB ITB, using Python and Pygame.',
+            p3d:'Contributed to the official website of Techno Entrepreneur Club (TEC) ITB. Focused on designing and implementing the <em>Our Program</em> page and overall UI/UX — crafting a modern, informative visual experience.',
+            ik_name:'Full Name', ik_uni:'University', ik_major:'Major', iv_major:'Information System & Technology', ik_year:'Year', iv_year:'1st Year (2025–2028)', ik_loc:'Location', ik_email:'Email', ik_hobby:'Hobbies', iv_hobby:'Reading, Sports, Tech Exploration', ik_status:'Status', iv_status:'Open to Opportunities ✦',
+            sc_soft:'Soft Skills', sc_domain:'Domain Knowledge'
         },
         id: {
             tagline:'Mahasiswi STI di ITB', avail:'Terbuka untuk Peluang',
@@ -803,7 +840,22 @@
             contact_label:'Kontak', contact_title:'Mari Terhubung.<br><em>Sapa aku.</em>', contact_sub:'Tertarik berkolaborasi atau punya pertanyaan? Jangan ragu untuk menghubungi!',
             contact_intro:'Aku selalu terbuka untuk peluang baru, kolaborasi, dan obrolan menarik. Kirim pesan ya!',
             form_name:'Nama', form_email:'Email', form_msg:'Pesan', form_send:'Kirim Pesan',
-            social_label:'Sosial', social_title:'Temukan Aku<br><em>Online.</em>', social_sub:'Terhubung denganku di berbagai platform.'
+            social_label:'Sosial', social_title:'Temukan Aku<br><em>Online.</em>', social_sub:'Terhubung denganku di berbagai platform.',
+            completed:'✓ Selesai',
+            w1d:'Analytical skills, attention to detail, dan berbagai kompetensi organisasi.',
+            w2d:'Membangun website portofolio dan mengembangkan berbagai keahlian teknis & analitis dalam ekosistem startup kampus.',
+            w3d:'Koordinasi SDM, komunikasi, dan manajemen acara dalam himpunan mahasiswa STEI-K.',
+            w4d:'Perencanaan & manajemen acara selama 2 tahun 2 bulan di organisasi kesiswaan.',
+            w5d:'Memimpin divisi keimanan dan ketakwaan dalam organisasi kesiswaan sekolah.',
+            w1dt:'Mar 2026 — Sekarang · Bandung, Hybrid', w2dt:'Des 2025 — Sekarang · Bandung, Hybrid', w3dt:'Nov 2025 — Sekarang · Bandung, Hybrid', e1dt:'2025 — Sekarang',
+            e1d:'Fokus pada software engineering, web development, data science, dan product management.',
+            e2d:'Kegiatan: OSIS, Kerohanian Islam, Ekstrakurikuler Tari Saman. Keahlian: Sekretaris, Programming, Perencanaan Acara, Desain Grafis, Public Speaking.',
+            e3d:'Kegiatan: OSIS, Ekstrakurikuler Basket. Keahlian: Kepala Divisi, Kepala Ekstrakurikuler, Silat, Perencanaan Acara, Public Speaking.',
+            p1d:'Website portofolio pribadi untuk menampilkan keahlian dan pengalaman. Dibuat sebagai bagian dari program IT Agency TEC ITB.',
+            p2d:'Game bertema lift untuk Tugas Besar Berpikir Komputasional Semester 1 TPB ITB, menggunakan Python dan library Pygame.',
+            p3d:'Berkontribusi dalam pengembangan website resmi Techno Entrepreneur Club (TEC) ITB. Fokus pada desain dan implementasi halaman <em>Our Program</em> serta UI/UX secara keseluruhan — menciptakan pengalaman visual yang modern dan informatif.',
+            ik_name:'Nama Lengkap', ik_uni:'Universitas', ik_major:'Jurusan', iv_major:'Sistem dan Teknologi Informasi', ik_year:'Tahun', iv_year:'Tingkat 1 (2025–2028)', ik_loc:'Lokasi', ik_email:'Email', ik_hobby:'Hobi', iv_hobby:'Membaca, Olahraga, Eksplorasi Teknologi', ik_status:'Status', iv_status:'Terbuka untuk Peluang ✦',
+            sc_soft:'Soft Skills', sc_domain:'Pengetahuan Bidang'
         }
     };
 
