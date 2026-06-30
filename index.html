@@ -340,11 +340,44 @@
         ::-webkit-scrollbar-track { background:var(--bg); }
         ::-webkit-scrollbar-thumb { background:var(--accent);border-radius:2px; }
 
+        /* ── HAMBURGER (mobile only) ── */
+        .hamburger {
+            display:none;
+            position:fixed; top:16px; left:16px; z-index:300;
+            width:46px; height:46px; border-radius:12px;
+            background:rgba(7,9,26,.92); backdrop-filter:blur(18px);
+            border:1px solid var(--border);
+            align-items:center; justify-content:center;
+            cursor:none; flex-direction:column; gap:5px;
+            box-shadow:0 4px 20px rgba(0,0,0,.4);
+        }
+        .hamburger span {
+            display:block; width:20px; height:2px; border-radius:2px;
+            background:var(--ink); transition:all .3s;
+        }
+        .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity:0; }
+        .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+        .sidebar-overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,.6); backdrop-filter:blur(2px);
+            z-index:150; opacity:0; transition:opacity .3s;
+        }
+        .sidebar-overlay.show { display:block; opacity:1; }
+
         /* Mobile */
         @media(max-width:900px) {
             :root { --sidebar:0px; }
-            .sidebar { display:none; }
-            .main { margin-left:0; }
+            .hamburger { display:flex; }
+            .sidebar {
+                width:280px;
+                transform:translateX(-100%);
+                transition:transform .35s cubic-bezier(.4,0,.2,1);
+                box-shadow:8px 0 40px rgba(0,0,0,.5);
+            }
+            .sidebar.open { transform:translateX(0); }
+            .main { margin-left:0; padding-top:8px; }
             footer { margin-left:0; }
             .page { padding:40px 24px; }
 
@@ -382,8 +415,14 @@
 <div class="stars-layer" id="starsLayer"></div>
 <div class="moon-wrap"><div class="moon"></div><div class="moon-ring"></div></div>
 
+<!-- HAMBURGER (mobile) -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
     <div class="sb-brand">
         <div class="sb-logo">N.</div>
         <div class="sb-tagline">
@@ -707,8 +746,21 @@
         el.addEventListener('mouseleave',()=>{ cur.style.transform='translate(-50%,-50%) scale(1)';curR.style.opacity='1'; });
     });
 
+    // Sidebar toggle (mobile)
+    function toggleSidebar() {
+        const sb = document.getElementById('sidebar');
+        const ov = document.getElementById('sidebarOverlay');
+        const hb = document.getElementById('hamburger');
+        const isOpen = sb.classList.toggle('open');
+        ov.classList.toggle('show', isOpen);
+        hb.classList.toggle('open', isOpen);
+    }
+
     // Navigation
     function navigate(pageId) {
+        // close mobile sidebar on nav
+        const sb = document.getElementById('sidebar');
+        if(sb.classList.contains('open')) toggleSidebar();
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
         document.getElementById('page-'+pageId).classList.add('active');
